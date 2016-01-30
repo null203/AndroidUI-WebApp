@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+    <style>
+        *{
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            outline: none;
+        }
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        body {
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-user-select: none;
+            font-family: Helvetica;
+        }
+    </style>
+</head>
+<body>
+
+<script src="../src/pixi/pixi.js"></script>
+<script>
+
+    var render = new PIXI.autoDetectRenderer(document.body.offsetWidth * window.devicePixelRatio, document.body.offsetHeight * window.devicePixelRatio, {
+        transparent:false,
+        clearBeforeRender: false,
+        clearBeforeRendering: false,
+        backgroundColor : 0xeeeeee
+    });
+    if(render instanceof PIXI.CanvasRenderer){
+        console.log('CanvasRenderer');
+    }
+    render.view.style.width = document.body.offsetWidth + 'px';
+    render.view.style.height = document.body.offsetHeight + 'px';
+    document.body.appendChild(render.view);
+
+    var lastStage;
+
+    var stage = new PIXI.Container();
+    stage.x = stage.y = 200;
+
+    var clip1 = new PIXI.Graphics();
+    clip1.beginFill(0, 0.7);
+    clip1.drawRect(70, 50, 100, 100);
+//    clip1.endFill();
+//    stage.addChild(clip1);
+
+    var clip1Content = new PIXI.Container();
+//    clip1Content.mask = clip1;
+    stage.addChild(clip1Content);
+
+
+    var clip2 = new PIXI.Graphics();
+    clip2.beginFill(0xaa0000, 0.3);
+    clip2.drawCircle(80, 80, 80);
+    clip2.endFill();
+
+    clip1Content.addChild(clip2);
+
+
+    var graph2 = new PIXI.Graphics();
+    graph2.beginFill(0xaaaaaa, 0.7);
+    graph2.drawRect(80, 80, 150, 150);
+    graph2.endFill();
+    graph2.mask = clip2;
+    clip1Content.addChild(graph2);
+
+
+
+    var graph3 = new PIXI.Graphics();
+    graph3.beginFill(0x999999, 0.7);
+    graph3.drawRect(0, 100, 150, 150);
+    graph3.endFill();
+    graph3.mask = clip2;
+    clip1Content.addChild(graph3);
+
+
+    render.render(stage);
+
+
+    function loop(){
+        var stage2 = new PIXI.Container();
+        var g2 = new PIXI.Graphics();
+        g2.beginFill(0xff0000);
+        g2.drawCircle(80, 80, 80);
+        g2.endFill();
+
+        stage2.addChild(g2);
+
+        render.render(stage2);
+
+    }
+    setTimeout(loop, 2000);
+//    requestAnimationFrame(loop);
+//    loop();
+</script>
+</body>
+</html>
